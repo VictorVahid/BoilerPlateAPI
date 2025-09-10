@@ -1,8 +1,8 @@
-const express = require("express");
-const app = express();
+const express = require('express')
+const apiRoutes = require('./routes')
+const app = express()
 
-app.get("/api/status", (req, res) => {
-	res.status(200).send("API online!");
-});
+app.use(express.json())
+app.use('/api', apiRoutes)
 
-module.exports = app;
+module.exports = app
