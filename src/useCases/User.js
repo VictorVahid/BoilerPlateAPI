@@ -1,46 +1,33 @@
 const User = require("../models/userModel");
 
+const User = require("../models/userModel");
+
 class UserUseCase {
-	constructor(validator) {
-		this.validator = validator;
-	}
-
-
-  class GetUserByIdUseCase {
-    async execute(userId) {
-      return await User.findById(userId);
-    }
+  constructor(validator) {
+    this.validator = validator;
   }
 
-  class CreateUserUseCase {
-    constructor(validator) {
-      this.validator = validator;
-    }
-
-    async execute(userData) {
-      const { error } = this.validator.validate(userData);
-      if (error) throw new Error(error.details[0].message);
-      return await User.create(userData);
-    }
+  async getUserById(userId) {
+    return await User.findById(userId);
   }
 
-  class UpdateUserUseCase {
-    async execute(userId, updateData) {
-      return await User.findByIdAndUpdate(userId, updateData, { new: true });
-    }
+  async createUser(userData) {
+    const { error } = this.validator.validate(userData);
+    if (error) throw new Error(error.details[0].message);
+    return await User.create(userData);
   }
 
-  class DeleteUserUseCase {
-    async execute(userId) {
-      return await User.findByIdAndDelete(userId);
-    }
+  async updateUser(userId, updateData) {
+    return await User.findByIdAndUpdate(userId, updateData, { new: true });
   }
 
-  class ListUsersUseCase {
-    async execute(filter = {}) {
-      return await User.find(filter);
-    }
+  async deleteUser(userId) {
+    return await User.findByIdAndDelete(userId);
   }
 
+  async listUsers(filter = {}) {
+    return await User.find(filter);
+  }
+}
 
 module.exports = UserUseCase;
